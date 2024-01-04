@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunitoSans.className}>
-        <main className="bg-gray-100 min-h-screen flex flex-col items-center">
+        <main className="bg-gray-200 min-h-screen flex flex-col items-center">
           <nav className="w-full bg-white h-20 flex justify-center items-center">
             <section className="container flex items-center gap-3">
               <Image

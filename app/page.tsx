@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link"; //O link será usado como uma tag pai da Article, que funcionará como redirecionamento para as páginas de cada país, usando seu nome
 
 //Tipando os valores existentes nos objetos que a API retorna como CountryType
-type CountryType = {
+export type CountryType = {
   name: {
     common: string;
   };
@@ -16,6 +16,11 @@ type CountryType = {
     png: string;
     svg: string;
   };
+  capital: string;
+  region: string;
+  subregion: string;
+  population: number;
+  languages: string;
 };
 
 //Funções assincronas retorna uma promessa, que no caso é um array com os objetos que forem definidos anteriormente no type CountryType. E também o que estiver dentro do return()
