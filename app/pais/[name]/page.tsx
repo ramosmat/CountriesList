@@ -92,7 +92,7 @@ export default async function CountryPage({
           )}
         </section>
 
-        <div className="relative mb-2 h-48 md:h-auto w-96 rounded-xl shadow-md md:order-last order-first">
+        <div className="relative mb-2 h-48 md:h-auto w-80 rounded-xl shadow-md md:order-last order-first">
           <Image
             src={country.flags.svg}
             alt="Bandeira do pais"
