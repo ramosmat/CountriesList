@@ -1,4 +1,5 @@
 import type { CountryType } from "@/app/page";
+import CountryCard from "@/components/country-card";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,13 +19,32 @@ async function getCountryByName(name: string): Promise<CountryType> {
   return countries.find((country: CountryType) => country.name.common == name)!;
 }
 
+async function getCountryBordersByName(name: string) {
+  const response = await fetch(`https://restcountries.com/v3.1/all`);
+  const countries: CountryType[] = await response.json();
+
+  const country = countries.find(
+    (country: CountryType) => country.name.common == name
+  )!;
+
+  return country.borders?.map((border) => {
+    const borderCountry = countries.find((country) => country.cca3 == border)!;
+    return {
+      name: borderCountry.name.common,
+      ptName: borderCountry.translations.por.common,
+      flag: borderCountry.flags.svg,
+      flagAlt: `Bandeira do país ${name}`,
+    };
+  });
+}
+
 export default async function CountryPage({
   params: { name },
 }: {
   params: { name: string };
 }) {
   const country = await getCountryByName(decodeURI(name));
-
+  const borderCountries = await getCountryBordersByName(decodeURI(name));
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
   return (
@@ -81,6 +101,17 @@ export default async function CountryPage({
           ></Image>
         </div>
       </article>
+
+      <section>
+        <h3 className="mt-12 text-2xl font-semibold text-gray-800">
+          Países que fazem fronteira
+        </h3>
+        <div className="grid grid-cols-5 w-full gap-3 mt-3">
+          {borderCountries?.map((border) => (
+            <CountryCard {...border} />
+          ))}
+        </div>
+      </section>
     </section>
   );
 }

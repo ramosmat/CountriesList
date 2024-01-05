@@ -1,3 +1,5 @@
+import CountryCard from "@/components/country-card";
+import { StaticGenerationAsyncStorage } from "next/dist/client/components/static-generation-async-storage.external";
 import Image from "next/image";
 import Link from "next/link"; //O link será usado como uma tag pai da Article, que funcionará como redirecionamento para as páginas de cada país, usando seu nome
 
@@ -23,6 +25,8 @@ export type CountryType = {
   languages: {
     [key: string]: string;
   };
+  borders?: string[];
+  cca3: string;
 };
 
 //Funções assincronas retorna uma promessa, que no caso é um array com os objetos que forem definidos anteriormente no type CountryType. E também o que estiver dentro do return()
@@ -37,24 +41,13 @@ export default async function Home() {
   return (
     <section className="grid grid-cols-5 w-full container gap-2 mt-12">
       {countries.map((country) => (
-        <Link href={`/pais/${country.name.common}`}>
-          <article className="h-64 min-w-full p-2 bg-white border-2 rounded-xl hover:border-indigo-200 transition-all hover:shadow-xl">
-            <div className="relative w-full h-40 p-2 overflow-hidden rounded-xl">
-              <Image
-                src={country.flags.svg}
-                alt="Flag"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <h1
-              key={country.translations.por.common}
-              className="font-semibold text-lg text-center mt-1"
-            >
-              {country.translations.por.common}
-            </h1>
-          </article>
-        </Link>
+        <CountryCard
+          key={country.name.common}
+          name={country.name.common}
+          ptName={country.translations.por.common}
+          flag={country.flags.svg}
+          flagAlt="Flag do país"
+        />
       ))}
     </section>
   );
