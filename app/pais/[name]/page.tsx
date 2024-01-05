@@ -2,11 +2,20 @@ import type { CountryType } from "@/app/page";
 import Image from "next/image";
 import Link from "next/link";
 
+// async function getCountryByName(name: string): Promise<CountryType> {
+//   const response = await fetch(
+//     `https://restcountries.com/v3.1/name/${name}?fullText=true`
+//   );
+//   return (await response.json())[0];
+// }
+
 async function getCountryByName(name: string): Promise<CountryType> {
   const response = await fetch(
     `https://restcountries.com/v3.1/name/${name}?fullText=true`
   );
-  return (await response.json())[0];
+  const countries: CountryType[] = await response.json();
+
+  return countries.find((country: CountryType) => country.name.common == name)!;
 }
 
 export default async function CountryPage({
@@ -14,7 +23,7 @@ export default async function CountryPage({
 }: {
   params: { name: string };
 }) {
-  const country = await getCountryByName(name);
+  const country = await getCountryByName(decodeURI(name));
 
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
