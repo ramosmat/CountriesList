@@ -20,7 +20,9 @@ export type CountryType = {
   region: string;
   subregion: string;
   population: number;
-  languages: string;
+  languages: {
+    [key: string]: string;
+  };
 };
 
 //Funções assincronas retorna uma promessa, que no caso é um array com os objetos que forem definidos anteriormente no type CountryType. E também o que estiver dentro do return()
